@@ -57,38 +57,24 @@ public class Tile {
         l.setOpen(newR.isOpen());
         l.setValue(newR.getValue());
     }
+
     public void defaultOrientation() {
         this.orientation = Orientation.DEFAULT;
     }
 
     public List<Move> getPossibleMoves(Tile that) {
         List<Move> possibleMoves = new ArrayList<>();
-        for(Layout layout : Layout.values()) {
-            switch (layout) {
-                case LL -> {
-                    if(that.isLeftOpen() && that.getL().getValue() == this.getL().getValue()) {
-                        invert();
-                        possibleMoves.add(new Move(this, that, Layout.LL, false));
-                    }
-                    break;
-                }
-                case LR -> {
-                    if(that.isRightOpen() && that.getR().getValue() == this.getL().getValue()) possibleMoves.add(new Move(this, that, Layout.LR, false));
-                    break;
+        if (that.isLeftOpen() && that.getL().getValue() == this.getL().getValue()) {
+            possibleMoves.add(new Move(this, that, Layout.LL, false));
+        }
+        if (that.isRightOpen() && that.getR().getValue() == this.getL().getValue())
+            possibleMoves.add(new Move(this, that, Layout.LR, false));
 
-                }
-                case RL -> {
-                    if(that.isLeftOpen() && that.getL().getValue() == this.getR().getValue()) possibleMoves.add(new Move(this, that, Layout.RL, false));
-                    break;
-                }
-                case RR -> {
-                    if(that.isRightOpen() && that.getR().getValue() == this.getR().getValue()) {
-                        invert();
-                        possibleMoves.add(new Move(this, that, Layout.RR, false));
-                    }
-                    break;
-                }
-            }
+        if (that.isLeftOpen() && that.getL().getValue() == this.getR().getValue())
+            possibleMoves.add(new Move(this, that, Layout.RL, false));
+
+        if (that.isRightOpen() && that.getR().getValue() == this.getR().getValue()) {
+            possibleMoves.add(new Move(this, that, Layout.RR, false));
         }
         return possibleMoves;
     }

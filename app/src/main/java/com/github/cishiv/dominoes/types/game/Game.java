@@ -67,6 +67,7 @@ public class Game {
         int boardIndex = inPlay.indexOf(playerMove.getBoardTile());
         switch (playerMove.getParity()) {
             case RR -> {
+                playerMove.getPlayerTile().invert();
                 playerMove.getPlayerTile().toggleLeft();
                 inPlay.get(boardIndex).toggleRight();
                 break;
@@ -77,6 +78,7 @@ public class Game {
                 break;
             }
             case LL -> {
+                playerMove.getPlayerTile().invert();
                 playerMove.getPlayerTile().toggleRight();
                 inPlay.get(boardIndex).toggleLeft();
                 break;
