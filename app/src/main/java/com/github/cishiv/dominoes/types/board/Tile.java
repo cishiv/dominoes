@@ -57,14 +57,6 @@ public class Tile {
         this.orientation = Orientation.INVERSE;
     }
 
-    public void invert() {
-        Side newR = new Side(r.getValue(), r.isOpen());
-        r.setOpen(l.isOpen());
-        r.setValue(l.getValue());
-        l.setOpen(newR.isOpen());
-        l.setValue(newR.getValue());
-    }
-
     public void defaultOrientation() {
         this.orientation = Orientation.DEFAULT;
     }
