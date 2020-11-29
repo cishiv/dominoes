@@ -2,11 +2,15 @@ package com.github.cishiv.dominoes.game;
 
 import com.github.cishiv.dominoes.types.game.Game;
 import org.junit.Assert;
+import org.junit.Ignore;
+import org.junit.Test;
 
+@Ignore
 public class GameTest {
 
     // evaluate a complete line of play to make sure the game is executed as per the rules.
     // edge case - exhausted stock TODO
+    @Test
     public void testWhenAGameCompletesTheResultantGameBoardHasAdjacentPairsWithValuesThatAreEqual() {
         Game game = new Game("test_player_1", "test_player_2");
         game.start();

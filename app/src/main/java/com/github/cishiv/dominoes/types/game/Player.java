@@ -22,8 +22,6 @@ public class Player {
     // Since the game is played on 1-axis, there are only 2 viable tiles to play against at a time
     // A tile _can_ potentially have 2 open sides, but that condition only occurs on the first move
     public Optional<Move> play(Tile first, Tile last, Stock stock) {
-        //return String.format("%s plays %s to connected to %s on the board", playerName, selectedTile, targetTile);
-        // String.format("%s can't play, drawing tile %s", playerName, drawnTile);
         List<Move> moves = new ArrayList<>();
         if (first.equals(last)) {
             // first move i.e. we only care about 'first' and both of its sides are fair game
@@ -75,9 +73,5 @@ public class Player {
     /** Visible for testing **/
     public void setPlayerHand(List<Tile> playerHand) {
         this.playerHand = playerHand;
-    }
-
-    public int handsize() {
-        return playerHand.size();
     }
 }

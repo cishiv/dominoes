@@ -4,7 +4,6 @@ import com.github.cishiv.dominoes.types.board.Stock;
 import com.github.cishiv.dominoes.types.board.Tile;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
 
 public class Game {
