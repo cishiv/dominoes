@@ -1,18 +1,18 @@
 package com.github.cishiv.dominoes.types.game;
 
-import com.github.cishiv.dominoes.types.board.Parity;
+import com.github.cishiv.dominoes.types.board.Layout;
 import com.github.cishiv.dominoes.types.board.Tile;
 
 public class Move {
     private Tile playerTile;
     private Tile boardTile;
-    private Parity parity;
+    private Layout layout;
     private boolean handEmpty;
 
-    public Move(Tile playerTile, Tile boardTile, Parity parity, boolean handEmpty) {
+    public Move(Tile playerTile, Tile boardTile, Layout layout, boolean handEmpty) {
         this.playerTile = playerTile;
         this.boardTile = boardTile;
-        this.parity = parity;
+        this.layout = layout;
         this.handEmpty = handEmpty;
     }
 
@@ -21,8 +21,8 @@ public class Move {
         return playerTile;
     }
 
-    public Parity getParity() {
-        return parity;
+    public Layout getParity() {
+        return layout;
     }
 
     public Tile getBoardTile() {
@@ -39,6 +39,6 @@ public class Move {
 
     @Override
     public String toString() {
-        return String.format("Possible move with %s to %s with direction %s", playerTile.toString(), boardTile.toString(), parity);
+        return String.format("Possible move with %s to %s with direction %s", playerTile.toString(), boardTile.toString(), layout);
     }
 }

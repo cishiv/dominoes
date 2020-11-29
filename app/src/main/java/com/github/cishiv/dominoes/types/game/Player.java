@@ -1,6 +1,5 @@
 package com.github.cishiv.dominoes.types.game;
 
-import com.github.cishiv.dominoes.types.board.Parity;
 import com.github.cishiv.dominoes.types.board.Stock;
 import com.github.cishiv.dominoes.types.board.Tile;
 

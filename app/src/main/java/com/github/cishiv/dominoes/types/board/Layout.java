@@ -1,6 +1,6 @@
 package com.github.cishiv.dominoes.types.board;
 
-public enum Parity {
+public enum Layout {
     LR,
     RL,
     RR,

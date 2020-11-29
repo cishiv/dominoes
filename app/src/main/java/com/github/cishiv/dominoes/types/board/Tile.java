@@ -56,19 +56,19 @@ public class Tile {
 
     public List<Move> getPossibleMoves(Tile that) {
         List<Move> possibleMoves = new ArrayList<>();
-        for(Parity parity: Parity.values()) {
-            switch (parity) {
+        for(Layout layout : Layout.values()) {
+            switch (layout) {
                 case LL -> {
-                    if(that.isLeftOpen() && that.getL().getValue() == this.getL().getValue()) possibleMoves.add(new Move(this, that, Parity.LL, false));
+                    if(that.isLeftOpen() && that.getL().getValue() == this.getL().getValue()) possibleMoves.add(new Move(this, that, Layout.LL, false));
                 }
                 case LR -> {
-                    if(that.isRightOpen() && that.getR().getValue() == this.getL().getValue()) possibleMoves.add(new Move(this, that, Parity.LR, false));
+                    if(that.isRightOpen() && that.getR().getValue() == this.getL().getValue()) possibleMoves.add(new Move(this, that, Layout.LR, false));
                 }
                 case RL -> {
-                    if(that.isLeftOpen() && that.getL().getValue() == this.getR().getValue()) possibleMoves.add(new Move(this, that, Parity.RL, false));
+                    if(that.isLeftOpen() && that.getL().getValue() == this.getR().getValue()) possibleMoves.add(new Move(this, that, Layout.RL, false));
                 }
                 case RR -> {
-                    if(that.isRightOpen() && that.getR().getValue() == this.getR().getValue()) possibleMoves.add(new Move(this, that, Parity.RL, false));
+                    if(that.isRightOpen() && that.getR().getValue() == this.getR().getValue()) possibleMoves.add(new Move(this, that, Layout.RL, false));
                 }
             }
         }
