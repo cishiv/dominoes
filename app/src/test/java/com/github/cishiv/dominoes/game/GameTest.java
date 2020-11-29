@@ -2,7 +2,6 @@ package com.github.cishiv.dominoes.game;
 
 import com.github.cishiv.dominoes.types.game.Game;
 import org.junit.Assert;
-import org.junit.Test;
 
 public class GameTest {
 
