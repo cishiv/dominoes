@@ -4,7 +4,6 @@ import com.github.cishiv.dominoes.types.board.Stock;
 import com.github.cishiv.dominoes.types.board.Tile;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
 
 public class Game {
@@ -15,7 +14,6 @@ public class Game {
 
     private LinkedList<Tile> inPlay;
     private Stock stock;
-    private List<Tile> availableMoves;
     private boolean ongoing;
 
     public Game(String playerAName, String playerBName) {
@@ -24,7 +22,6 @@ public class Game {
         this.inPlay = new LinkedList<>();
         this.stock = new Stock();
         this.ongoing = false;
-        this.availableMoves = new LinkedList<>();
     }
 
     public void addToPlay(Tile addition) {
@@ -70,32 +67,43 @@ public class Game {
         int boardIndex = inPlay.indexOf(playerMove.getBoardTile());
         switch (playerMove.getParity()) {
             case RR -> {
-                playerMove.getPlayerTile().toggleRight();
+                playerMove.getPlayerTile().toggleLeft();
                 inPlay.get(boardIndex).toggleRight();
+                break;
             }
             case RL -> {
                 playerMove.getPlayerTile().toggleRight();
                 inPlay.get(boardIndex).toggleLeft();
+                break;
             }
             case LL -> {
-                playerMove.getPlayerTile().toggleLeft();
-                playerMove.getPlayerTile().inverseOrientation();
+                playerMove.getPlayerTile().toggleRight();
                 inPlay.get(boardIndex).toggleLeft();
+                break;
             }
             case LR -> {
                 playerMove.getPlayerTile().toggleLeft();
-                playerMove.getPlayerTile().inverseOrientation();
                 inPlay.get(boardIndex).toggleRight();
+                break;
             }
         }
         placeCorrectly(playerMove);
     }
 
     private void placeCorrectly(Move playerMove) {
-        if(inPlay.getFirst().equals(playerMove.getBoardTile())) {
-            inPlay.addFirst(playerMove.getPlayerTile());
+        // the edge case for pretty-printed, the first tile doesn't self identify as 'last' even though it might logically be right aligned
+        if(inPlay.size() == 1) {
+            if(inPlay.get(0).getR() == playerMove.getPlayerTile().getR() || inPlay.get(0).getR() == playerMove.getPlayerTile().getL()) {
+                inPlay.addLast(playerMove.getPlayerTile());
+            } else {
+                inPlay.addFirst(playerMove.getPlayerTile());
+            }
         } else {
-            inPlay.addLast(playerMove.getPlayerTile());
+            if(inPlay.getFirst().equals(playerMove.getBoardTile())) {
+                inPlay.addFirst(playerMove.getPlayerTile());
+            } else {
+                inPlay.addLast(playerMove.getPlayerTile());
+            }
         }
     }
 
@@ -114,5 +122,11 @@ public class Game {
             builder.append(tile.toString() + "\s");
         });
         return builder.toString();
+    }
+
+    /** visible for testing
+     * @return**/
+    public LinkedList<Tile> getBoard() {
+        return inPlay;
     }
 }

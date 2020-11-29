@@ -17,6 +17,10 @@ public class Side {
         return open;
     }
 
+    public void setValue(int value) {
+        this.value = value;
+    }
+
     public void setOpen(boolean open) {
         this.open = open;
     }

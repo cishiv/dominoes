@@ -41,7 +41,7 @@ public class Player {
 
         if(moves.size() > 0) {
             Move move = chooseRandom(moves);
-            System.out.printf("%s plays %s to connect to tile %s on the board\n", playerName, move.getPlayerTile().toString(), move.getBoardTile().toString());
+            System.out.printf("%s plays %s to connect to tile %s on the board %s\n", playerName, move.getPlayerTile().toString(), move.getBoardTile().toString(), move.getParity());
             playerHand.remove(move.getPlayerTile());
             if(playerHand.size() == 0) {
                 move.setHandEmpty(true);
@@ -70,6 +70,11 @@ public class Player {
 
     public String getPlayerName() {
         return playerName;
+    }
+
+    /** Visible for testing **/
+    public void setPlayerHand(List<Tile> playerHand) {
+        this.playerHand = playerHand;
     }
 
     public int handsize() {

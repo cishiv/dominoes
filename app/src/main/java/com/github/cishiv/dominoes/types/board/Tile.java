@@ -50,6 +50,13 @@ public class Tile {
         this.orientation = Orientation.INVERSE;
     }
 
+    public void invert() {
+        Side newR = new Side(r.getValue(), r.isOpen());
+        r.setOpen(l.isOpen());
+        r.setValue(l.getValue());
+        l.setOpen(newR.isOpen());
+        l.setValue(newR.getValue());
+    }
     public void defaultOrientation() {
         this.orientation = Orientation.DEFAULT;
     }
@@ -59,20 +66,35 @@ public class Tile {
         for(Layout layout : Layout.values()) {
             switch (layout) {
                 case LL -> {
-                    if(that.isLeftOpen() && that.getL().getValue() == this.getL().getValue()) possibleMoves.add(new Move(this, that, Layout.LL, false));
+                    if(that.isLeftOpen() && that.getL().getValue() == this.getL().getValue()) {
+                        invert();
+                        possibleMoves.add(new Move(this, that, Layout.LL, false));
+                    }
+                    break;
                 }
                 case LR -> {
                     if(that.isRightOpen() && that.getR().getValue() == this.getL().getValue()) possibleMoves.add(new Move(this, that, Layout.LR, false));
+                    break;
+
                 }
                 case RL -> {
                     if(that.isLeftOpen() && that.getL().getValue() == this.getR().getValue()) possibleMoves.add(new Move(this, that, Layout.RL, false));
+                    break;
                 }
                 case RR -> {
-                    if(that.isRightOpen() && that.getR().getValue() == this.getR().getValue()) possibleMoves.add(new Move(this, that, Layout.RL, false));
+                    if(that.isRightOpen() && that.getR().getValue() == this.getR().getValue()) {
+                        invert();
+                        possibleMoves.add(new Move(this, that, Layout.RR, false));
+                    }
+                    break;
                 }
             }
         }
         return possibleMoves;
+    }
+
+    public Orientation getOrientation() {
+        return orientation;
     }
 
     @Override
