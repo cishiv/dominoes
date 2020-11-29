@@ -16,7 +16,6 @@ public class Move {
         this.handEmpty = handEmpty;
     }
 
-
     public Tile getPlayerTile() {
         return playerTile;
     }

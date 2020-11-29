@@ -18,8 +18,15 @@ public class Tile {
 
 
     public String prettyPrint(Orientation orientation) {
-        if (orientation.equals(Orientation.DEFAULT)) return String.format("<%d:%d>", l.getValue(), r.getValue());
-        return String.format("<%d:%d>", r.getValue(), l.getValue());
+        switch (orientation) {
+            case DEFAULT -> {
+                return String.format("<%d:%d>", l.getValue(), r.getValue());
+            }
+            case INVERSE -> {
+                return String.format("<%d:%d>", r.getValue(), l.getValue());
+            }
+        }
+        return null;
     }
 
     public boolean isLeftOpen() {
@@ -64,17 +71,28 @@ public class Tile {
 
     public List<Move> getPossibleMoves(Tile that) {
         List<Move> possibleMoves = new ArrayList<>();
-        if (that.isLeftOpen() && that.getL().getValue() == this.getL().getValue()) {
-            possibleMoves.add(new Move(this, that, Layout.LL, false));
-        }
-        if (that.isRightOpen() && that.getR().getValue() == this.getL().getValue())
-            possibleMoves.add(new Move(this, that, Layout.LR, false));
 
-        if (that.isLeftOpen() && that.getL().getValue() == this.getR().getValue())
-            possibleMoves.add(new Move(this, that, Layout.RL, false));
+        // if its an edge domino (i.e. both sides are equal, don't support flip layouts)
+        if(this.getL() == this.getR()) {
+            if (that.isRightOpen() && (that.getR().getValue() == this.getL().getValue() || (that.getR().getValue() == this.getR().getValue())))
+                possibleMoves.add(new Move(this, that, Layout.LR, false));
 
-        if (that.isRightOpen() && that.getR().getValue() == this.getR().getValue()) {
-            possibleMoves.add(new Move(this, that, Layout.RR, false));
+            if (that.isLeftOpen() && (that.getL().getValue() == this.getR().getValue()) || that.getL().getValue() == this.getL().getValue()) {
+                possibleMoves.add(new Move(this, that, Layout.RL, false));
+            }
+        } else {
+            if (that.isLeftOpen() && (that.getL().getValue() == this.getL().getValue())) {
+                possibleMoves.add(new Move(this, that, Layout.LL, false));
+            }
+            if (that.isRightOpen() && (that.getR().getValue() == this.getL().getValue()))
+                possibleMoves.add(new Move(this, that, Layout.LR, false));
+
+            if (that.isLeftOpen() && (that.getL().getValue() == this.getR().getValue()))
+                possibleMoves.add(new Move(this, that, Layout.RL, false));
+
+            if (that.isRightOpen() && (that.getR().getValue() == this.getR().getValue())) {
+                possibleMoves.add(new Move(this, that, Layout.RR, false));
+            }
         }
         return possibleMoves;
     }
