@@ -8,6 +8,9 @@ repositories {
 
 dependencies {
     testImplementation 'junit:junit:4.13'
+
+    // For running benchmark unit tests
+    testImplementation 'com.carrotsearch:junit-benchmarks:0.7.2'
 }
 
 application {

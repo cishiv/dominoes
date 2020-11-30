@@ -1,5 +1,6 @@
 package com.github.cishiv.dominoes.types.game;
 
+import com.github.cishiv.dominoes.types.board.Layout;
 import com.github.cishiv.dominoes.types.board.Stock;
 import com.github.cishiv.dominoes.types.board.Tile;
 
@@ -14,11 +15,12 @@ public class Game {
 
     private LinkedList<Tile> inPlay;
     private Stock stock;
-    private boolean ongoing;
+    private boolean valid;
 
-    /** For testing purposes
-     *  Provides a slice of game-state at the end of a run, which lets us verify everything hangs together through a unit test.
-     *  Values on the ticker are appended in the exact order they are played in the line of play.
+    /**
+     * For testing purposes
+     * Provides a slice of game-state at the end of a run, which lets us verify everything hangs together through a unit test.
+     * Values on the ticker are appended in the exact order they are played in the line of play.
      */
     private String ticker;
 
@@ -27,7 +29,7 @@ public class Game {
         this.playerB = new Player(playerBName);
         this.inPlay = new LinkedList<>();
         this.stock = new Stock();
-        this.ongoing = false;
+        this.valid = false;
         this.ticker = new String();
     }
 
@@ -36,9 +38,8 @@ public class Game {
     }
 
     public void start() {
-        // game set up
         setup();
-        while (ongoing) {
+        while (valid) {
             Optional<Move> playerAMove = playerA.play(inPlay.getFirst(), inPlay.getLast(), stock);
             if (playerAMove.isPresent()) {
                 applyMove(playerAMove.get());
@@ -48,7 +49,7 @@ public class Game {
                     break;
                 }
             } else {
-                ongoing = false;
+                valid = false;
                 System.out.printf("Stock exhausted, %s wins by elimination, player %s was unable to play!", playerB.getPlayerName(), playerA.getPlayerName());
                 break;
             }
@@ -62,7 +63,7 @@ public class Game {
                     break;
                 }
             } else {
-                ongoing = false;
+                valid = false;
                 System.out.printf("Stock exhausted, %s wins by elimination, player %s was unable to play!", playerA.getPlayerName(), playerB.getPlayerName());
                 break;
             }
@@ -70,9 +71,19 @@ public class Game {
         }
     }
 
-    /** simplification for unit testing **/
+    // simplification for unit testing
     public String ticker() {
         return ticker.toString();
+    }
+
+    public void appendTicker(Move move, boolean before) {
+        if (before) ticker = move.getPlayerTile().toString().replaceAll("[^0-9.]", "") + ticker;
+        else ticker = ticker + move.getPlayerTile().toString().replaceAll("[^0-9.]", "");
+    }
+
+    // an invalid game is one where the stock has been exhausted i.e. a full playthrough did not occur, and a player won by default.
+    public boolean isValid() {
+        return valid;
     }
 
     private void applyMove(Move playerMove) {
@@ -106,29 +117,47 @@ public class Game {
     }
 
     private void placeLeftCorrectly(Move playerMove) {
-        if (inPlay.getFirst().equals(playerMove.getBoardTile())) {
-            playerMove.getPlayerTile().inverseOrientation();
-            inPlay.addFirst(playerMove.getPlayerTile());
-            ticker = playerMove.getPlayerTile().toString().replaceAll("[^0-9.]", "") + ticker;
+        // Similar to a right alignment, a left-right layout on the first move, but abide by a specific set of rules - the first tile must be placed to the RIGHT
+        // of the starting tile, if the layout is left-right.
+        if (inPlay.size() == 1) {
+            if (playerMove.getParity().equals(Layout.LR)) {
+                inPlay.addLast(playerMove.getPlayerTile());
+                appendTicker(playerMove, false);
+            }
         } else {
-            inPlay.addLast(playerMove.getPlayerTile());
-            ticker = ticker + playerMove.getPlayerTile().toString().replaceAll("[^0-9.]", "");
+            if (inPlay.getFirst().equals(playerMove.getBoardTile())) {
+                playerMove.getPlayerTile().inverseOrientation();
+                inPlay.addFirst(playerMove.getPlayerTile());
+                appendTicker(playerMove, true);
+            } else {
+                inPlay.addLast(playerMove.getPlayerTile());
+                appendTicker(playerMove, false);
+            }
         }
     }
 
     private void placeRightCorrectly(Move playerMove) {
-        if (inPlay.getFirst().equals(playerMove.getBoardTile())) {
-            inPlay.addFirst(playerMove.getPlayerTile());
-            ticker = playerMove.getPlayerTile().toString().replaceAll("[^0-9.]", "") + ticker;
+        // In the case of the first tile placement, a right-left layout, means that the player tile should be placed 'as is' IN FRONT of the pre-existing starting tile
+        // in any other case for a right-x layout - the pointer of the board-tile we are playing against, determines the resulting layout.
+        if (inPlay.size() == 1) {
+            if (playerMove.getParity().equals(Layout.RL)) {
+                inPlay.addFirst(playerMove.getPlayerTile());
+                appendTicker(playerMove, true);
+            }
         } else {
-            playerMove.getPlayerTile().inverseOrientation();
-            inPlay.addLast(playerMove.getPlayerTile());
-            ticker = ticker + playerMove.getPlayerTile().toString().replaceAll("[^0-9.]", "");
+            if (inPlay.getFirst().equals(playerMove.getBoardTile())) {
+                inPlay.addFirst(playerMove.getPlayerTile());
+                appendTicker(playerMove, true);
+            } else {
+                playerMove.getPlayerTile().inverseOrientation();
+                inPlay.addLast(playerMove.getPlayerTile());
+                appendTicker(playerMove, false);
+            }
         }
     }
 
     private void setup() {
-        ongoing = true;
+        valid = true;
         playerA.draw(stock, INITIAL_HAND_SIZE);
         playerB.draw(stock, INITIAL_HAND_SIZE);
         Tile first = stock.pop(1).get(0);
@@ -144,4 +173,6 @@ public class Game {
         });
         return builder.toString();
     }
+
+
 }
