@@ -4,6 +4,7 @@ import com.github.cishiv.dominoes.types.board.Layout;
 import com.github.cishiv.dominoes.types.board.Tile;
 
 public class Move {
+
     private Tile playerTile;
     private Tile boardTile;
     private Layout layout;

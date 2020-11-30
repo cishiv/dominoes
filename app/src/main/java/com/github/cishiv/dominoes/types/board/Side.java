@@ -1,6 +1,7 @@
 package com.github.cishiv.dominoes.types.board;
 
 public class Side {
+
     private int value;
     private boolean open;
 

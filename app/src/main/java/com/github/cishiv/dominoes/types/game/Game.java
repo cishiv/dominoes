@@ -166,6 +166,9 @@ public class Game {
         addToPlay(first);
     }
 
+    // although it might be less efficient, by rebuilding the board each time it's needed,
+    // we can be sure that the output format is up-to-date across the iterations.
+    // (print orientations are changed during processing)
     private String formattedBoardOutput() {
         StringBuilder builder = new StringBuilder("Board is now:\s");
         inPlay.forEach(tile -> {
@@ -173,6 +176,4 @@ public class Game {
         });
         return builder.toString();
     }
-
-
 }

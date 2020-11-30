@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tile {
+
     private Side l;
     private Side r;
     private PrintOrientation printOrientation;
