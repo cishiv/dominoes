@@ -24,10 +24,6 @@ To build from source, execute the following Gradle Wrapper command from your ter
 mshiv@LAPTOP-ENNNEGDS MINGW64 ~/Desktop/Development/assessments/dominoes (main)
 $ ./gradlew build
 
-Deprecated Gradle features were used in this build, making it incompatible with Gradle 7.0.
-Use '--warning-mode all' to show the individual deprecation warnings.
-See https://docs.gradle.org/6.7/userguide/command_line_interface.html#sec:command_line_warnings
-
 BUILD SUCCESSFUL in 4s
 7 actionable tasks: 7 executed
 ```
