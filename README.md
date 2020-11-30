@@ -1,6 +1,14 @@
-# 28 stock, 2 player Dominoes
+# Dominoes
 
 ## Getting Started
+
+This application is written in **Java** and uses no external dependencies in the application code.
+It has a two 3rd party dependencies to ease unit testing.
+Namely, 
+- junit
+- junit-benchmarks
+
+Dependencies are managed through Gradle, and will be downloaded automatically when a build is run.
 
 To run the application you will need the following:
 1. JDK 15.0.1 (Java 15)
@@ -67,7 +75,6 @@ Board is now: <3:1> <1:2> <2:2> <2:0> <0:1> <1:5> <5:6> <6:6> <6:2> <2:3> <3:5> 
 Player Bob has won!
 
 ```
-
 ### Using the bundled JAR
 
 It is recommended to build from source, however, if that is not possible - a precompiled JAR is provided.
@@ -77,6 +84,5 @@ Run the following command from your terminal in the root project directory.
 `java -jar ./bin/app.jar`
 
 This should run the application in exactly the same way as above.
-
 
 If you experience any technical difficulties, please don't hesitate to contact me!
