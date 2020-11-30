@@ -39,7 +39,7 @@ public class Player {
 
         if(moves.size() > 0) {
             Move move = chooseRandom(moves);
-            System.out.printf("%s plays %s to connect to tile %s on the board %s\n", playerName, move.getPlayerTile().toString(), move.getBoardTile().toString(), move.getParity());
+            System.out.printf("%s plays %s to connect to tile %s on the board\n", playerName, move.getPlayerTile().toString(), move.getBoardTile().toString());
             playerHand.remove(move.getPlayerTile());
             if(playerHand.size() == 0) {
                 move.setHandEmpty(true);
